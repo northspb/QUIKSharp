@@ -115,7 +115,14 @@ namespace QuikSharpDemo
                 textBoxLogsWindow.AppendText("Определяем код класса инструмента " + secCode + ", по списку классов" + "..." + Environment.NewLine);
                 try
                 {
-                    classCode = _quik.Class.GetSecurityClass("SPBFUT,TQBR,TQBS,TQNL,TQLV,TQNE,TQOB", secCode).Result;
+                    var list = _quik.Class.GetClassesList().Result;
+
+                    string clasess = "";
+                    foreach (var item in list)
+                    {
+                        clasess = clasess + item + ",";
+                    }
+                    classCode = _quik.Class.GetSecurityClass(clasess.TrimEnd(','), secCode).Result;
                 }
                 catch
                 {

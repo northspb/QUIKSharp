@@ -78,8 +78,8 @@ namespace RobotDemo
             try
             {
                 textBoxLogs.AppendText("Подключаемся к терминалу Quik..." + Environment.NewLine);
-                //_quik = new Quik(Quik.DefaultPort, new InMemoryStorage());    // инициализируем объект Quik
-                _quik = new Quik(34136, new InMemoryStorage());    // отладочный вариант
+                _quik = new Quik(Quik.DefaultPort, new InMemoryStorage());    // инициализируем объект Quik
+                //_quik = new Quik(34136, new InMemoryStorage());    // отладочный вариант
             }
             catch
             {
@@ -137,7 +137,23 @@ namespace RobotDemo
                 textBoxLogs.AppendText("Определяем код класса инструмента " + secCode + ", по списку классов" + "..." + Environment.NewLine);
                 try
                 {
-                    classCode = _quik.Class.GetSecurityClass("SPBFUT,TQBR,TQBS,TQNL,TQLV,TQNE,TQOB", secCode).Result;
+                    var list= _quik.Class.GetClassesList().Result;
+
+                    //Dictionary<string, string[]> data = new Dictionary<string, string[]>();
+                    //foreach (var item in list)
+                    //{
+                    //    var sec=_quik.Class.GetClassSecurities(item).Result;
+
+                    //    data.Add(item, sec);
+                    //}
+                    string clasess = "";
+                    foreach (var item in list)
+                    {
+                        clasess = clasess +item+ ",";
+                    }
+                    
+                    
+                    classCode = _quik.Class.GetSecurityClass(clasess.TrimEnd(','), secCode).Result;
                 }
                 catch
                 {
